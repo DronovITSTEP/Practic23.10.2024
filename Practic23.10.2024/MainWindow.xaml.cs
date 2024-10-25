@@ -20,39 +20,48 @@ namespace Practic23._10._2024
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Button> buttons;
+        int turnToMove;
+        List<List<Button>> buttons;
+
+        Logic user;
+        Logic comp;
         public MainWindow()
         {
             InitializeComponent();
 
-            buttons = new List<Button>
+            turnToMove = new Random().Next(2);
+
+            buttons = new List<List<Button>>
             {
-                oneButton, 
-                twoButton, 
-                threeButton, 
-                fourButton, 
-                fiveButton, 
-                sixButton, 
-                sevenButton, 
-                eightButton,
-                nineButton
+                new List<Button> {oneButton,twoButton,threeButton},
+                new List<Button> { fourButton,fiveButton, sixButton},
+                new List<Button> { sevenButton, eightButton, nineButton},
+                new List<Button> { oneButton, fourButton, sevenButton },
+                new List<Button> { twoButton, fiveButton, eightButton },
+                new List<Button> { threeButton, sixButton, nineButton },
+                new List<Button> { oneButton, fiveButton, nineButton },
+                new List<Button> { threeButton, fiveButton, sevenButton }
             };
 
+            if (turnToMove == 0)
+            {
+                user = new LogicUser(buttons, 0,"images/krest.png");
+                comp = new LogicUser(buttons, 1,"images/nol.png");
+            }
+            else
+            {
+                comp = new LogicUser(buttons, 0, "images/krest.png");
+                user = new LogicUser(buttons, 1, "images/nol.png");
+                comp.Move();
+            }
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            button.Content = GetImage();
-            button.IsEnabled = false;
-            button.Background = Brushes.Transparent;
+            button.Content = user.GetImage();
+            comp.Move();
         }
 
-        private Image GetImage() 
-        { 
-            Image img = new Image();
-            img.Source = new BitmapImage(new Uri("images/nol.png", UriKind.Relative));
-            return img;
-        }
     }
 }
