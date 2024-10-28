@@ -45,22 +45,21 @@ namespace Practic23._10._2024
 
             if (turnToMove == 0)
             {
-                user = new LogicUser(buttons, 0,"images/krest.png");
+                user = new LogicComputer(buttons, 0,"images/krest.png");
                 comp = new LogicUser(buttons, 1,"images/nol.png");
             }
             else
             {
-                comp = new LogicUser(buttons, 0, "images/krest.png");
+                comp = new LogicComputer(buttons, 0, "images/krest.png");
                 user = new LogicUser(buttons, 1, "images/nol.png");
-                comp.Move();
+                comp.Move(oneButton);
             }
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            button.Content = user.GetImage();
-            comp.Move();
+        {        
+            user.Move(sender as Button);
+            comp.Move(sender as Button);
         }
 
     }

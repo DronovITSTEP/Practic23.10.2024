@@ -21,14 +21,15 @@ namespace Practic23._10._2024
             TurnToMove = turnToMove;
             ImageSource = imageSource;
         }
-        public abstract int Move();
+        public abstract void Move(Button button);
 
-        public bool IsWin()
+        public bool IsWin(int valButton)
         {
-            foreach (var listButton in Buttons)
+            /*foreach (var listButton in indexButtons)
             {
-                if (listButton.Count == 0) return true;
-            }
+                int count = listButton.Count(num => num == valButton);
+                if (count == 3) return true;
+            }*/
             return false;
         }
 
@@ -37,6 +38,15 @@ namespace Practic23._10._2024
             Image img = new Image();
             img.Source = new BitmapImage(new Uri(ImageSource, UriKind.Relative));
             return img;
+        }
+
+        public void DeleteButton(Button button)
+        {
+            for(int i = 0; i < Buttons.Count; i++)
+            {
+                if (Buttons[i].Count == 0) Buttons.RemoveAt(i);
+            }
+            Buttons.ForEach(list => list.Remove(button));
         }
     }
 }

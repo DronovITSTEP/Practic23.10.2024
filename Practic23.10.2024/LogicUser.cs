@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Practic23._10._2024
@@ -14,9 +15,10 @@ namespace Practic23._10._2024
             string imageSource) : 
             base(buttons, turnToMove, imageSource) { }
 
-        public override int Move()
+        public override void Move(Button button)
         {
-            return new Random().Next(range);
+            button.Content = GetImage();
+            DeleteButton(button);
         }
     }
 }
