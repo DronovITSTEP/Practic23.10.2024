@@ -11,30 +11,35 @@ namespace Practic23._10._2024
     internal class LogicComputer : Logic
     {
         private Random random = new Random();
+        List<Tuple<int, int>> positions = new List<Tuple<int, int>>();
+        public LogicComputer(Button[,] buttons, int turnToMove, string imageSource) :
+                                base(turnToMove, imageSource){
+            Logic.buttons = buttons;
 
-        List<List<String>> buttons = new List<List<String>>
+            for (int i = 0; i < 3; i++)
             {
-                new List<String> {"oneButton","twoButton","threeButton"},
-                new List<String> { "fourButton","fiveButton", "sixButton"},
-                new List<String> { "sevenButton", "eightButton", "nineButton" },
-                new List<String> { "oneButton", "fourButton", "sevenButton" },
-                new List<String> { "twoButton", "fiveButton", "eightButton" },
-                new List<String> { "threeButton", "sixButton", "nineButton" },
-                new List<String> { "oneButton", "fiveButton", "nineButton" },
-                new List<String> { "threeButton", "fiveButton", "sevenButton" }
-            };
-        public LogicComputer(List<List<Button>> buttons,
-                    int turnToMove,
-                    string imageSource) :
-                    base(buttons, turnToMove, imageSource)
-        { }
+                for (int j = 0; j < 3; j++)
+                {
+                    positions.Add(new Tuple<int, int>(i, j));
+                }
+            }
+        }
         public override void Move(Button button)
         {
-            int randomRow = random.Next(Buttons.Count);
-            int randomCol = random.Next(Buttons[randomRow].Count);
+            int index;
+            Tuple<int, int> position;
+            do
+            {
+                index = random.Next(0, positions.Count);
+                position = positions[index];
+            } while (!buttons[position.Item1, position.Item2].IsEnabled);
 
-            Buttons[randomRow][randomCol].Content = GetImage();
-            DeleteButton(Buttons[randomRow][randomCol]);
+            Image img = GetImage();
+            pathImages[position.Item1, position.Item2] = img.Source.ToString();
+
+            buttons[position.Item1, position.Item2].Content = img;
+            buttons[position.Item1, position.Item2].IsEnabled = false;
+            positions.RemoveAt(index);           
         }
     }
 }

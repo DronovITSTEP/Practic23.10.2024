@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,45 +22,42 @@ namespace Practic23._10._2024
     public partial class MainWindow : Window
     {
         int turnToMove;
-        List<List<Button>> buttons;
+        Button[,] buttons;
 
         Logic user;
         Logic comp;
+
         public MainWindow()
         {
             InitializeComponent();
 
             turnToMove = new Random().Next(2);
 
-            buttons = new List<List<Button>>
-            {
-                new List<Button> {oneButton,twoButton,threeButton},
-                new List<Button> { fourButton,fiveButton, sixButton},
-                new List<Button> { sevenButton, eightButton, nineButton},
-                new List<Button> { oneButton, fourButton, sevenButton },
-                new List<Button> { twoButton, fiveButton, eightButton },
-                new List<Button> { threeButton, sixButton, nineButton },
-                new List<Button> { oneButton, fiveButton, nineButton },
-                new List<Button> { threeButton, fiveButton, sevenButton }
+            buttons = new Button[3, 3] {
+                 { oneButton, twoButton, threeButton},
+                { fourButton, fiveButton, sixButton},
+                { sevenButton, eightButton, nineButton}
             };
 
             if (turnToMove == 0)
             {
-                user = new LogicComputer(buttons, 0,"images/krest.png");
-                comp = new LogicUser(buttons, 1,"images/nol.png");
+                user = new LogicComputer(buttons, 0,"images/nol.png");
+                comp = new LogicUser(1,"images/krest.png");
             }
             else
             {
                 comp = new LogicComputer(buttons, 0, "images/krest.png");
-                user = new LogicUser(buttons, 1, "images/nol.png");
+                user = new LogicUser(1, "images/nol.png");
                 comp.Move(oneButton);
             }
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
-        {        
+        {           
             user.Move(sender as Button);
+            if (user.IsWin()) MessageBox.Show("Победа юзера");
             comp.Move(sender as Button);
+            if (comp.IsWin()) MessageBox.Show("Победа компа");
         }
 
     }

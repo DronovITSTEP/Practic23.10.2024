@@ -13,23 +13,44 @@ namespace Practic23._10._2024
     internal abstract class Logic
     {
         public int TurnToMove { get; }
-        public List<List<Button>> Buttons { get; set; }
-        public string ImageSource {get;}
-        public Logic(List<List<Button>> buttons, int turnToMove, string imageSource)
+        public string ImageSource { get; }
+        protected static Button[,] buttons;
+        public static string[,] pathImages;
+        public Logic(int turnToMove, string imageSource)
         {
-            Buttons = buttons;
             TurnToMove = turnToMove;
             ImageSource = imageSource;
+            pathImages = new string[3, 3];
         }
         public abstract void Move(Button button);
 
-        public bool IsWin(int valButton)
+        public bool IsWin()
         {
-            /*foreach (var listButton in indexButtons)
-            {
-                int count = listButton.Count(num => num == valButton);
-                if (count == 3) return true;
-            }*/
+            if (buttons != null)
+            {              
+                for (int i = 0; i < 3; i++)
+                {
+          
+                    if (pathImages[i, 0] == pathImages[i, 1] && 
+                        pathImages[i, 1] == pathImages[i, 2] &&
+                        pathImages[i, 0] != null)
+                        return true;
+                    if (pathImages[0, i] == pathImages[1, i] && 
+                        pathImages[1, i] == pathImages[2, i] &&
+                        pathImages[0, i] != null)
+                        return true;
+                }
+
+                if (pathImages[0,0] == pathImages[1, 1] && 
+                    pathImages[0, 0] == pathImages[2, 2] && 
+                    pathImages[0,0] != null)
+                    return true;
+
+                if (pathImages[0, 2] == pathImages[1, 1] && 
+                    pathImages[0, 2] == pathImages[2, 0] &&
+                    pathImages[0,2] != null)
+                    return true;
+            }
             return false;
         }
 
@@ -38,15 +59,6 @@ namespace Practic23._10._2024
             Image img = new Image();
             img.Source = new BitmapImage(new Uri(ImageSource, UriKind.Relative));
             return img;
-        }
-
-        public void DeleteButton(Button button)
-        {
-            for(int i = 0; i < Buttons.Count; i++)
-            {
-                if (Buttons[i].Count == 0) Buttons.RemoveAt(i);
-            }
-            Buttons.ForEach(list => list.Remove(button));
         }
     }
 }
