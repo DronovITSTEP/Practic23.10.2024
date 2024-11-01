@@ -17,9 +17,9 @@ namespace Practic23._10._2024
     /// <summary>
     /// Логика взаимодействия для StartyGame.xaml
     /// </summary>
-    public partial class StartyGame : Window
+    public partial class StartGame : Window
     {
-        public StartyGame()
+        public StartGame()
         {
             InitializeComponent();
         }
